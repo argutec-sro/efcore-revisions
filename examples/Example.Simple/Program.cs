@@ -7,7 +7,7 @@ namespace Example.Simple
     {
         static void Main(string[] args)
         {
-            using (DataContext lDataContext = new DataContext(DesignTimeDbContextFactory.CONNECTION_STRING))
+            using (DataContext lDataContext = new DataContext(DesignTimeDbContextFactory.CONNECTION_STRING, new AppContext()))
             {
                 lDataContext.Books.Add(new Book()
                 {

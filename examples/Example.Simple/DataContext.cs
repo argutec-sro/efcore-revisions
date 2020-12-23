@@ -11,10 +11,15 @@ namespace Example.Simple
         {
 
         }
-        public DataContext(string aConnectionString) : base()
+        public DataContext(DbContextOptions aOptions, Argutec.EfCore.Revisions.IAppContext aAppContext = null) : base(aOptions, aAppContext)
+        {
+        }
+        public DataContext(string aConnectionString, Argutec.EfCore.Revisions.IAppContext aAppContext = null) : base(aAppContext)
         {
             mConnectionString = aConnectionString;
         }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder aOptionsBuilder)
         {
             base.OnConfiguring(aOptionsBuilder);

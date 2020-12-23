@@ -7,12 +7,15 @@ namespace Argutec.EfCore.Revisions
 {
     public class DataContext : DbContext
     {
-        public DataContext() : base()
-        {
-        }
-        public DataContext(DbContextOptions aOptions) : base(aOptions)
-        {
+        private readonly IAppContext mAppContext = null;
 
+        public DataContext(IAppContext aAppContext = null) : base()
+        {
+            mAppContext = aAppContext;
+        }
+        public DataContext(DbContextOptions aOptions, IAppContext aAppContext = null) : base(aOptions)
+        {
+            mAppContext = aAppContext;
         }
 
         public DbSet<Revision> Revisions { get; set; }
@@ -28,9 +31,11 @@ namespace Argutec.EfCore.Revisions
 
         public void SaveRevision()
         {
-            Guid lBatchID = Guid.NewGuid();
-            // TODO: Logged User
-            string lUserID = "TEST";
+            Guid lBatchID = Guid.NewGuid();            
+            
+            string lUserID = mAppContext != null ? mAppContext.LoggedUser : null;
+            string lUser = mAppContext != null ? mAppContext.LoggedUserName : null;
+
             List<Revision> lNewRevisions = new List<Revision>();
 
             foreach (var nRecord in this.ChangeTracker.Entries().Where(aR => aR.State == EntityState.Modified))
@@ -44,12 +49,14 @@ namespace Argutec.EfCore.Revisions
                     {
                         ID = Guid.NewGuid(),
                         RecordID = lPrimaryKey,
+                        CreateDate = DateTime.Now,
                         Table = lTableName,
                         Column = nColumn.Metadata.Name,
                         Original = nColumn.OriginalValue?.ToString(),
                         Current = nColumn.CurrentValue?.ToString(),
                         BatchID = lBatchID,
-                        User = lUserID
+                        User = lUserID,
+                        UserName = lUser
                     });
                 }
             }
@@ -63,10 +70,12 @@ namespace Argutec.EfCore.Revisions
                 {
                     ID = Guid.NewGuid(),
                     RecordID = lPrimaryKey,
+                    CreateDate = DateTime.Now,
                     Table = lTableName,
                     Column = "RECORD_CREATED",
                     BatchID = lBatchID,
-                    User = lUserID
+                    User = lUserID,
+                    UserName = lUser
                 });
             }
             this.Revisions.AddRange(lNewRevisions);
