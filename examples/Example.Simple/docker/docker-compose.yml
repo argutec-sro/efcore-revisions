@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  db:
+    container_name: db
+    image: postgres:12-alpine
+    ports:
+      - 9001:5432
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: revisions
+      POSTGRES_DB: revisions
+      POSTGRES_PASSWORD: develpass
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - 8082:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: info@argutec.eu
+      PGADMIN_DEFAULT_PASSWORD: develpass

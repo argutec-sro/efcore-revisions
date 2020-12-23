@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EC647495-6EB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argutec.EfCore.Revisions", "src\Argutec.EfCore.Revisions\Argutec.EfCore.Revisions.csproj", "{9031038D-2C2A-4C97-B1FA-B81C7FA73505}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{263740C6-8DFD-44F8-BF9C-1681F26EEA9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Simple", "examples\Example.Simple\Example.Simple.csproj", "{61973562-58F6-4F06-ABDC-B542A421C04D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{9031038D-2C2A-4C97-B1FA-B81C7FA73505}.Release|x64.Build.0 = Release|Any CPU
 		{9031038D-2C2A-4C97-B1FA-B81C7FA73505}.Release|x86.ActiveCfg = Release|Any CPU
 		{9031038D-2C2A-4C97-B1FA-B81C7FA73505}.Release|x86.Build.0 = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|x64.Build.0 = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Debug|x86.Build.0 = Debug|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|x64.ActiveCfg = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|x64.Build.0 = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|x86.ActiveCfg = Release|Any CPU
+		{61973562-58F6-4F06-ABDC-B542A421C04D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9031038D-2C2A-4C97-B1FA-B81C7FA73505} = {EC647495-6EB8-411E-9082-7B13B70AEA04}
+		{61973562-58F6-4F06-ABDC-B542A421C04D} = {263740C6-8DFD-44F8-BF9C-1681F26EEA9D}
 	EndGlobalSection
 EndGlobal
