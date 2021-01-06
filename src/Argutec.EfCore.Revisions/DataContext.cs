@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Argutec.EfCore.Revisions
 {
@@ -41,6 +42,7 @@ namespace Argutec.EfCore.Revisions
             foreach (var nRecord in this.ChangeTracker.Entries().Where(aR => aR.State == EntityState.Modified))
             {
                 GetRecordInfo(nRecord, out string lTableName, out string lPrimaryKey);
+                string lAdditionalInformation = GetRecordAdditionalInformation(nRecord);
 
                 var lMembers = nRecord.Properties.Where(aR => aR.IsModified);
                 foreach (var nColumn in lMembers)
@@ -49,6 +51,7 @@ namespace Argutec.EfCore.Revisions
                     {
                         ID = Guid.NewGuid(),
                         RecordID = lPrimaryKey,
+                        AdditionalInfo = lAdditionalInformation,
                         CreateDate = DateTime.Now,
                         Table = lTableName,
                         Column = nColumn.Metadata.Name,
@@ -65,11 +68,13 @@ namespace Argutec.EfCore.Revisions
             foreach (var nRecord in this.ChangeTracker.Entries().Where(aR => aR.State == EntityState.Added))
             {
                 GetRecordInfo(nRecord, out string lTableName, out string lPrimaryKey);
+                string lAdditionalInformation = GetRecordAdditionalInformation(nRecord);
 
                 lNewRevisions.Add(new Revision
                 {
                     ID = Guid.NewGuid(),
                     RecordID = lPrimaryKey,
+                    AdditionalInfo = lAdditionalInformation,
                     CreateDate = DateTime.Now,
                     Table = lTableName,
                     Column = "RECORD_CREATED",
@@ -81,10 +86,29 @@ namespace Argutec.EfCore.Revisions
             this.Revisions.AddRange(lNewRevisions);
         }
 
+        private static string GetRecordAdditionalInformation(EntityEntry aEntity)
+        {
+            Dictionary<string, string> lValues = new Dictionary<string, string>();
+
+            foreach (var nProperty in aEntity.Entity.GetType().GetProperties())
+            {
+                if (Attribute.IsDefined(nProperty, typeof(AdditionalInfoAttribute)))
+                {
+                    lValues.Add(nProperty.Name, nProperty.GetValue(aEntity.Entity)?.ToString());
+                }
+            }
+
+            if (lValues.Count == 0) return null;
+
+            return SerializeValues(lValues
+                .OrderBy(aR => aR.Key)
+                .Select(aR => aR.Value));
+        }
         private static void GetRecordInfo(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry nRecord, out string aTableName, out string aPrimaryKey)
         {
             aTableName = nRecord.Metadata.GetTableName();
             var lPrimaryKeyNames = nRecord.Metadata.FindPrimaryKey().Properties.Select(aR => aR.Name);
+
             aPrimaryKey = null;
             if (lPrimaryKeyNames.Count() == 0)
             {
@@ -99,12 +123,16 @@ namespace Argutec.EfCore.Revisions
             }
             else
             {
-                aPrimaryKey = String.Join(", ", lPrimaryKeyNames.Select(aR
+                aPrimaryKey = SerializeValues(lPrimaryKeyNames.Select(aR
                     => aR + ": " + nRecord.Entity.GetType()
                         .GetProperty(aR)
                         .GetValue(nRecord.Entity)
                         ?.ToString()));
             }
+        }
+        private static string SerializeValues(IEnumerable<string> aValues)
+        {
+            return String.Join(", ", aValues);
         }
     }
 }

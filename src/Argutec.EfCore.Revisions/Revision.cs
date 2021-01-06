@@ -13,6 +13,7 @@ namespace Argutec.EfCore.Revisions
         public Guid BatchID { get; set; }
         [Required]
         public string RecordID { get; set; }
+        public string AdditionalInfo { get; set; }
 
         [Required]
         public DateTime CreateDate { get; set; }

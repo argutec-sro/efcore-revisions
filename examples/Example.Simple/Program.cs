@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace Example.Simple
 {
@@ -9,6 +10,8 @@ namespace Example.Simple
         {
             using (DataContext lDataContext = new DataContext(DesignTimeDbContextFactory.CONNECTION_STRING, new AppContext()))
             {
+                lDataContext.Database.Migrate();
+                
                 lDataContext.Books.Add(new Book()
                 {
                     ID = Guid.NewGuid(),
