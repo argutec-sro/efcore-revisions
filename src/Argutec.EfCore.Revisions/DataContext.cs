@@ -49,7 +49,7 @@ namespace Argutec.EfCore.Revisions
                     {
                         ID = Guid.NewGuid(),
                         RecordID = lPrimaryKey,
-                        CreateDate = DateTime.Now,
+                        CreateDate = DateTime.UtcNow,
                         Table = lTableName,
                         Column = nColumn.Metadata.Name,
                         Original = nColumn.OriginalValue?.ToString(),
@@ -70,7 +70,7 @@ namespace Argutec.EfCore.Revisions
                 {
                     ID = Guid.NewGuid(),
                     RecordID = lPrimaryKey,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     Table = lTableName,
                     Column = "RECORD_CREATED",
                     BatchID = lBatchID,
