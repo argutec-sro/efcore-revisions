@@ -45,19 +45,22 @@ namespace Argutec.EfCore.Revisions
                 var lMembers = nRecord.Properties.Where(aR => aR.IsModified);
                 foreach (var nColumn in lMembers)
                 {
-                    lNewRevisions.Add(new Revision
+                    if (nColumn.OriginalValue != nColumn.CurrentValue)
                     {
-                        ID = Guid.NewGuid(),
-                        RecordID = lPrimaryKey,
-                        CreateDate = DateTime.UtcNow,
-                        Table = lTableName,
-                        Column = nColumn.Metadata.Name,
-                        Original = nColumn.OriginalValue?.ToString(),
-                        Current = nColumn.CurrentValue?.ToString(),
-                        BatchID = lBatchID,
-                        User = lUserID,
-                        UserName = lUser
-                    });
+                        lNewRevisions.Add(new Revision
+                        {
+                            ID = Guid.NewGuid(),
+                            RecordID = lPrimaryKey,
+                            CreateDate = DateTime.UtcNow,
+                            Table = lTableName,
+                            Column = nColumn.Metadata.Name,
+                            Original = nColumn.OriginalValue?.ToString(),
+                            Current = nColumn.CurrentValue?.ToString(),
+                            BatchID = lBatchID,
+                            User = lUserID,
+                            UserName = lUser
+                        });
+                    }
                 }
             }
 
