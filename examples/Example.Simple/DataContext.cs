@@ -33,6 +33,7 @@ namespace Example.Simple
 
         protected override void OnModelCreating(ModelBuilder aModelBuilder)
         {
+            aModelBuilder.Entity<Book>().Property(aR => aR.ReleaseDate).HasDefaultValue(DateTime.UtcNow);
         }
     }
 }

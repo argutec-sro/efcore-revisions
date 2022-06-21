@@ -10,5 +10,7 @@ namespace Example.Simple
         public Guid ID { get; set; }
         public string Name { get; set; }
         public int Year { get; set; }
+        [Required]
+        public DateTime ReleaseDate { get; set; }
     }
 }

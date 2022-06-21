@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Argutec.Profiling\Argutec.Profiling.csproj" />
     <ProjectReference Include="..\..\src\Argutec.EfCore.Revisions\Argutec.EfCore.Revisions.csproj" />
   </ItemGroup>
 
