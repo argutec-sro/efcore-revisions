@@ -45,7 +45,7 @@ namespace Argutec.EfCore.Revisions
                 var lMembers = nRecord.Properties.Where(aR => aR.IsModified);
                 foreach (var nColumn in lMembers)
                 {
-                    if (nColumn.OriginalValue != nColumn.CurrentValue)
+                    if (!nColumn.OriginalValue.Equals(nColumn.CurrentValue))
                     {
                         lNewRevisions.Add(new Revision
                         {
