@@ -18,6 +18,7 @@ namespace Argutec.EfCore.Revisions
             mAppContext = aAppContext;
         }
 
+
         public DbSet<Revision> Revisions { get; set; }
         public override int SaveChanges()
         {
@@ -27,6 +28,14 @@ namespace Argutec.EfCore.Revisions
         public int SaveChangesWithoutRevisions()
         {
             return base.SaveChanges();
+        }
+
+        protected override void OnModelCreating(ModelBuilder aModelBuilder)
+        {
+            base.OnModelCreating(aModelBuilder);
+
+            aModelBuilder.Entity<Revision>().Property(aR => aR.BatchOperation).HasDefaultValue(RevisionOperation.Insert);
+            aModelBuilder.Entity<Revision>().Property(aR => aR.BatchTables).HasDefaultValue("UNKNOWN");
         }
 
         public void SaveRevision()
@@ -81,6 +90,22 @@ namespace Argutec.EfCore.Revisions
                     UserName = lUser
                 });
             }
+
+            foreach (var nBatch in lNewRevisions.GroupBy(aR => aR.BatchID))
+            {
+                var lTables = nBatch.Select(aR => aR.Table).Distinct().OrderBy(aR => aR);
+                var lTablesJoined = String.Join(", ", lTables);
+                var lBatchOperation = nBatch.All(aR => aR.Column == "RECORD_CREATED")
+                    ? RevisionOperation.Insert
+                    : RevisionOperation.Update;
+
+                nBatch.ToList().ForEach(aR =>
+                {
+                    aR.BatchTables = lTablesJoined;
+                    aR.BatchOperation = lBatchOperation;
+                });
+            }
+
             this.Revisions.AddRange(lNewRevisions);
         }
 

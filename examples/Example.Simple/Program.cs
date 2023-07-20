@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
@@ -44,12 +45,8 @@ namespace Example.Simple
 
                 lDataContext.SaveChanges();
 
-
-                // var lBook = lDataContext.Books.First();
-                // lBook.ReleaseDate = lBook.ReleaseDate;
-
-                // lTestBook.Name = "BOOK HAS BEEN TESTED";
-                // lTestBook.Year = 2020;
+                var lBook = lDataContext.Books.First();
+                lBook.ReleaseDate = (new DateTime(2111, 1, 1)).ToUniversalTime();
 
                 lDataContext.SaveChanges();
             }

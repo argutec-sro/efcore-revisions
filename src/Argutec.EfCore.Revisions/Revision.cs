@@ -29,5 +29,11 @@ namespace Argutec.EfCore.Revisions
         public string User { get; set; }
         [MaxLength(256)]
         public string UserName { get; set; }
+
+        [Required]
+        public RevisionOperation BatchOperation { get; set; }
+        [Required]
+        [MaxLength(1024)]
+        public string BatchTables { get; set; }
     }
 }

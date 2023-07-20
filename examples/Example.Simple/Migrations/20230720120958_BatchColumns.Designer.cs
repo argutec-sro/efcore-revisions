@@ -3,6 +3,7 @@ using System;
 using Example.Simple;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Example.Simple.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230720120958_BatchColumns")]
+    partial class BatchColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +74,7 @@ namespace Example.Simple.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Revisions", (string)null);
+                    b.ToTable("Revisions");
                 });
 
             modelBuilder.Entity("Example.Simple.Book", b =>
@@ -93,7 +96,7 @@ namespace Example.Simple.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 #pragma warning restore 612, 618
         }
