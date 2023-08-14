@@ -54,7 +54,11 @@ namespace Argutec.EfCore.Revisions
                 var lMembers = nRecord.Properties.Where(aR => aR.IsModified);
                 foreach (var nColumn in lMembers)
                 {
-                    if (!nColumn.OriginalValue.Equals(nColumn.CurrentValue))
+                    if (nColumn == null) continue;
+                    
+                    if ((nColumn.OriginalValue == null && nColumn.CurrentValue != null)
+                     || (nColumn.OriginalValue != null && nColumn.CurrentValue == null)
+                     || !nColumn.OriginalValue.Equals(nColumn.CurrentValue))
                     {
                         lNewRevisions.Add(new Revision
                         {
@@ -71,7 +75,7 @@ namespace Argutec.EfCore.Revisions
                         });
                     }
                 }
-            }
+            }:
 
             
             foreach (var nRecord in this.ChangeTracker.Entries().Where(aR => aR.State == EntityState.Added))
