@@ -37,7 +37,7 @@ jobs:
         echo $RELEASE_VERSION
         echo ${{ env.RELEASE_VERSION }}
     - name: Pack Nuget package
-      run: dotnet pack "${{env.project}}" --configuration Release -p:PackageVersion=$RELEASE_VERSION
+      run: dotnet pack "${{env.project}}" --configuration Release -p:PackageVersion=$RELEASE_VERSION -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
     - name: Push Nuget package
       run: dotnet nuget push **/*.nupkg
             --api-key "${{ secrets.TOKEN }}"
