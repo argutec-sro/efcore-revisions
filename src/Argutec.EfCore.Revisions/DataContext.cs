@@ -75,7 +75,7 @@ namespace Argutec.EfCore.Revisions
                         });
                     }
                 }
-            }:
+            }
 
             
             foreach (var nRecord in this.ChangeTracker.Entries().Where(aR => aR.State == EntityState.Added))
