@@ -58,7 +58,7 @@ namespace Argutec.EfCore.Revisions
                     
                     if ((nColumn.OriginalValue == null && nColumn.CurrentValue != null)
                      || (nColumn.OriginalValue != null && nColumn.CurrentValue == null)
-                     || !nColumn.OriginalValue.Equals(nColumn.CurrentValue))
+                     || (nColumn.OriginalValue != null && !nColumn.OriginalValue.Equals(nColumn.CurrentValue)))
                     {
                         lNewRevisions.Add(new Revision
                         {
